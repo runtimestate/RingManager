@@ -44,10 +44,6 @@ public class RingReceiver extends BroadcastReceiver implements
 	}
 
 	@Override
-	public void onAccuracyChanged(Sensor sensor, int accuracy) {
-	}
-
-	@Override
 	public void onSensorChanged(SensorEvent event) {
 		float x = event.values[SensorManager.DATA_X];
 		float y = event.values[SensorManager.DATA_Y];
@@ -59,6 +55,10 @@ public class RingReceiver extends BroadcastReceiver implements
 					this.telephonyManager.getCallState(),
 					AudioManager.ADJUST_LOWER);
 		}
+	}
+
+	@Override
+	public void onAccuracyChanged(Sensor sensor, int accuracy) {
 	}
 
 	private void changeStreamVolume(AudioManager audioManager,
