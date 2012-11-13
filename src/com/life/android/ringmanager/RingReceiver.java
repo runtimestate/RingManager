@@ -4,15 +4,17 @@ import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
-import android.hardware.SensorManager;
+//import android.hardware.Sensor;
+//import android.hardware.SensorEvent;
+//import android.hardware.SensorEventListener;
+//import android.hardware.SensorManager;
 import android.media.AudioManager;
 import android.telephony.TelephonyManager;
 
-public class RingReceiver extends BroadcastReceiver implements
-		SensorEventListener {
+public class RingReceiver extends BroadcastReceiver
+//		implements
+//		SensorEventListener 
+		{
 
 	private Intent intent;
 	private TelephonyManager telephonyManager;
@@ -43,23 +45,23 @@ public class RingReceiver extends BroadcastReceiver implements
 		}
 	}
 
-	@Override
-	public void onSensorChanged(SensorEvent event) {
-		float x = event.values[SensorManager.DATA_X];
-		float y = event.values[SensorManager.DATA_Y];
-		float z = event.values[SensorManager.DATA_Z];
-
-		if (!(this.intent.getAction().equals(Intent.ACTION_NEW_OUTGOING_CALL))
-				&& x != 0 && y != 0 && z != 10) {
-			changeStreamVolume(this.audioManager, this.current,
-					this.telephonyManager.getCallState(),
-					AudioManager.ADJUST_LOWER);
-		}
-	}
-
-	@Override
-	public void onAccuracyChanged(Sensor sensor, int accuracy) {
-	}
+//	@Override
+//	public void onSensorChanged(SensorEvent event) {
+//		float x = event.values[SensorManager.DATA_X];
+//		float y = event.values[SensorManager.DATA_Y];
+//		float z = event.values[SensorManager.DATA_Z];
+//
+//		if (!(this.intent.getAction().equals(Intent.ACTION_NEW_OUTGOING_CALL))
+//				&& x != 0 && y != 0 && z != 10) {
+//			changeStreamVolume(this.audioManager, this.current,
+//					this.telephonyManager.getCallState(),
+//					AudioManager.ADJUST_LOWER);
+//		}
+//	}
+//
+//	@Override
+//	public void onAccuracyChanged(Sensor sensor, int accuracy) {
+//	}
 
 	private void changeStreamVolume(AudioManager audioManager,
 			int currentVolume, int callState, int direction) {
