@@ -10,7 +10,6 @@ public class RingReceiver extends BroadcastReceiver {
 	public void onReceive(Context context, Intent intent) {
 		Intent ringServiceIntent = new Intent(context, RingService.class);
 
-		System.out.println("--------------");
 		context.startService(ringServiceIntent);
 	}
 }
