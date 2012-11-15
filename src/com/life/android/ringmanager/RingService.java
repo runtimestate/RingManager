@@ -26,7 +26,7 @@ public class RingService extends Service implements SensorEventListener {
 
 		this.sensorManager = (SensorManager) getSystemService(Service.SENSOR_SERVICE);
 		this.sensor = this.sensorManager
-				.getDefaultSensor(Sensor.TYPE_PROXIMITY);
+				.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 
 		this.audioManager = (AudioManager) getSystemService(Service.AUDIO_SERVICE);
 
