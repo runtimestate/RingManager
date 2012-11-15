@@ -2,21 +2,31 @@ package com.life.android.ringmanager;
 
 import android.app.Service;
 import android.content.Intent;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.media.AudioManager;
 import android.os.IBinder;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 
-public class RingService extends Service {
+public class SensorService extends Service implements SensorEventListener {
 
 	private PhoneStateListener phoneStateListener;
 	private TelephonyManager telephonyManager;
 	private AudioManager audioManager;
+	private SensorManager sensorManager;
+	private Sensor sensor;
 	private int current = 1;
 
 	@Override
 	public void onCreate() {
 		this.telephonyManager = (TelephonyManager) getSystemService(Service.TELEPHONY_SERVICE);
+
+		this.sensorManager = (SensorManager) getSystemService(Service.SENSOR_SERVICE);
+		this.sensor = this.sensorManager
+				.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 
 		this.audioManager = (AudioManager) getSystemService(Service.AUDIO_SERVICE);
 
@@ -30,9 +40,8 @@ public class RingService extends Service {
 		this.phoneStateListener = new PhoneStateListener() {
 			@Override
 			public void onCallStateChanged(int state, String incomingNumber) {
-				changeStreamVolume(audioManager, current, state,
-						AudioManager.ADJUST_RAISE);
-
+				registerSensorListener(sensorManager, SensorService.this,
+						sensor, state);
 				super.onCallStateChanged(state, incomingNumber);
 			}
 		};
@@ -43,8 +52,26 @@ public class RingService extends Service {
 	}
 
 	@Override
+	public void onSensorChanged(SensorEvent paramSensorEvent) {
+		float x = paramSensorEvent.values[SensorManager.DATA_X];
+		float y = paramSensorEvent.values[SensorManager.DATA_Y];
+		float z = paramSensorEvent.values[SensorManager.DATA_Z];
+
+		if (x != 0 && y != 0
+				&& (z != 8 || z != 9 || z != 10 || z != 11 || z != 12)) {
+			changeStreamVolume(this.audioManager, this.current,
+					this.telephonyManager.getCallState(),
+					AudioManager.ADJUST_LOWER);
+		}
+	}
+
+	@Override
 	public IBinder onBind(Intent paramIntent) {
 		return null;
+	}
+
+	@Override
+	public void onAccuracyChanged(Sensor paramSensor, int paramInt) {
 	}
 
 	private void changeStreamVolume(AudioManager audioManager,
@@ -81,6 +108,23 @@ public class RingService extends Service {
 		case TelephonyManager.CALL_STATE_IDLE:
 			audioManager.setStreamVolume(AudioManager.STREAM_RING,
 					currentVolume, AudioManager.FLAG_VIBRATE);
+			break;
+		}
+	}
+
+	private void registerSensorListener(SensorManager sensorManager,
+			SensorEventListener sensorEventListener, Sensor sensor,
+			int callState) {
+		switch (callState) {
+		case TelephonyManager.CALL_STATE_RINGING:
+			sensorManager.registerListener(sensorEventListener, sensor,
+					SensorManager.SENSOR_DELAY_NORMAL);
+			break;
+		case TelephonyManager.CALL_STATE_OFFHOOK:
+			sensorManager.unregisterListener(sensorEventListener);
+			break;
+		case TelephonyManager.CALL_STATE_IDLE:
+			sensorManager.unregisterListener(sensorEventListener);
 			break;
 		}
 	}
