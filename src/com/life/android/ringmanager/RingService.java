@@ -60,7 +60,8 @@ public class RingService extends Service implements SensorEventListener {
 		float y = paramSensorEvent.values[SensorManager.DATA_Y];
 		float z = paramSensorEvent.values[SensorManager.DATA_Z];
 
-		if (x != 0 && y != 0 && z != 10) {
+		if (x != 0 && y != 0
+				&& (z != 8 || z != 9 || z != 10 || z != 11 || z != 12)) {
 			changeStreamVolume(this.audioManager, this.current,
 					this.telephonyManager.getCallState(),
 					AudioManager.ADJUST_LOWER);
