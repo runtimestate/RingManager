@@ -20,6 +20,10 @@ public class SensorService extends Service implements SensorEventListener {
 	private Sensor sensor;
 	private int current = 1;
 
+	private Float firstX;
+	private Float firstY;
+	private Float firstZ;
+
 	@Override
 	public void onCreate() {
 		this.telephonyManager = (TelephonyManager) getSystemService(Service.TELEPHONY_SERVICE);
@@ -56,10 +60,18 @@ public class SensorService extends Service implements SensorEventListener {
 		float x = paramSensorEvent.values[SensorManager.DATA_X];
 		float y = paramSensorEvent.values[SensorManager.DATA_Y];
 		float z = paramSensorEvent.values[SensorManager.DATA_Z];
+		if (firstX == null) {
+			firstX = x;
+		}
+		if (firstY == null) {
+			firstY = y;
+		}
+		if (firstZ == null) {
+			firstZ = z;
+		}
 
-		if (x != 0 && y != 0
-				&& (z != 8 || z != 9 || z != 10 || z != 11 || z != 12)) {
-			changeStreamVolume(this.audioManager, this.current,
+		if (firstX == 0 && firstY == 0 && firstZ > 0 && x != 0 && y != 0) {
+			VolumeUtil.changeStreamVolume(this.audioManager, this.current,
 					this.telephonyManager.getCallState(),
 					AudioManager.ADJUST_LOWER);
 		}
@@ -72,44 +84,6 @@ public class SensorService extends Service implements SensorEventListener {
 
 	@Override
 	public void onAccuracyChanged(Sensor paramSensor, int paramInt) {
-	}
-
-	private void changeStreamVolume(AudioManager audioManager,
-			int currentVolume, int callState, int direction) {
-		switch (callState) {
-		case TelephonyManager.CALL_STATE_RINGING:
-			if (direction == AudioManager.ADJUST_RAISE) {
-				for (int i = 1; i <= currentVolume; i++) {
-					try {
-						audioManager.setStreamVolume(AudioManager.STREAM_RING,
-								i, AudioManager.FLAG_VIBRATE);
-						Thread.sleep(1000);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-				}
-			}
-			if (direction == AudioManager.ADJUST_LOWER) {
-				for (int i = currentVolume; i > 1; i--) {
-					try {
-						audioManager.setStreamVolume(AudioManager.STREAM_RING,
-								i, AudioManager.FLAG_VIBRATE);
-						Thread.sleep(1000);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-				}
-			}
-			break;
-		case TelephonyManager.CALL_STATE_OFFHOOK:
-			audioManager.setStreamVolume(AudioManager.STREAM_RING,
-					currentVolume, AudioManager.FLAG_VIBRATE);
-			break;
-		case TelephonyManager.CALL_STATE_IDLE:
-			audioManager.setStreamVolume(AudioManager.STREAM_RING,
-					currentVolume, AudioManager.FLAG_VIBRATE);
-			break;
-		}
 	}
 
 	private void registerSensorListener(SensorManager sensorManager,
