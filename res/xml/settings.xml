@@ -4,12 +4,12 @@
     <CheckBoxPreference
         android:defaultValue="false"
         android:key="@string/ringKey"
-        android:summary="@string/ringLabel"
+        android:summary="@string/ringSummary"
         android:title="@string/ringLabel" />
     <CheckBoxPreference
         android:defaultValue="false"
         android:key="@string/sensorKey"
-        android:summary="@string/sensorLabel"
+        android:summary="@string/sensorSummary"
         android:title="@string/sensorLabel" />
 
 </PreferenceScreen>

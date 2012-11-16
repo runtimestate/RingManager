@@ -16,13 +16,13 @@ public final class R {
     }
     public static final class string {
         public static final int app_name=0x7f040000;
-        public static final int cancelButtonLabel=0x7f040008;
         public static final int main=0x7f040001;
         public static final int ringKey=0x7f040003;
         public static final int ringLabel=0x7f040005;
-        public static final int saveButtonLabel=0x7f040007;
+        public static final int ringSummary=0x7f040007;
         public static final int sensorKey=0x7f040004;
         public static final int sensorLabel=0x7f040006;
+        public static final int sensorSummary=0x7f040008;
         public static final int title_activity_main=0x7f040002;
     }
     public static final class xml {

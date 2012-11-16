@@ -1,0 +1,13 @@
+<resources>
+
+    <string name="app_name">铃声管理</string>
+    <string name="main">铃声管理</string>
+    <string name="title_activity_main">设置</string>
+    <string name="ringKey">ring</string>
+    <string name="sensorKey">sensor</string>
+    <string name="ringLabel">铃声</string>
+    <string name="sensorLabel">重力响应</string>
+    <string name="ringSummary">来电时铃声渐强</string>
+    <string name="sensorSummary">拿起手机时铃声渐弱</string>
+
+</resources>

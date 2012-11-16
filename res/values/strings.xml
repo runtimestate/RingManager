@@ -1,13 +1,13 @@
 <resources>
 
-    <string name="app_name">com.life.android.ringmanager</string>
+    <string name="app_name">RingManager</string>
     <string name="main">RingManager</string>
-    <string name="title_activity_main">MainActivity</string>
-    <string name="ringKey">ring</string>  
-    <string name="sensorKey">sensor</string>  
+    <string name="title_activity_main">Settings</string>
+    <string name="ringKey">ring</string>
+    <string name="sensorKey">sensor</string>
     <string name="ringLabel">Ring</string>
     <string name="sensorLabel">Sensor</string>
-    <string name="saveButtonLabel">Save</string>
-    <string name="cancelButtonLabel">Cancel</string>
+    <string name="ringSummary">Ring</string>
+    <string name="sensorSummary">Sensor</string>
 
 </resources>
